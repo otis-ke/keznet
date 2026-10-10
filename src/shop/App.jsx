@@ -7,7 +7,7 @@ import Hero from "./Hero.jsx";
 import ProductDialog from "./ProductDialog.jsx";
 import { GENERAL_TEXT, DEFAULT_TITLE, enquiryText, STOCK } from "./shared.js";
 import { BulbMark } from "../components/BulbMark.jsx";
-import { MATERIALS, catPath, catSlug, matchesQuery, parsePath, productPath } from "../lib/seo.js";
+import { BASE_PATH, MATERIALS, catPath, catSlug, matchesQuery, parsePath, productPath } from "../lib/seo.js";
 
 const PREVIEW = 8;
 
@@ -40,7 +40,7 @@ export default function App() {
   }, []);
 
   // ---------- URLs: /p/<id>/ opens a product, /c/<slug>/ opens a category ----------
-  const returnPath = useRef("/");
+  const returnPath = useRef(BASE_PATH);
   const [pendingCat, setPendingCat] = useState(null);
   useEffect(() => {
     const read = () => {
@@ -70,7 +70,7 @@ export default function App() {
     setOpenId(id);
   };
   const closeProduct = () => {
-    if (parsePath(location.pathname).productId) history.replaceState(null, "", returnPath.current || "/");
+    if (parsePath(location.pathname).productId) history.replaceState(null, "", returnPath.current || BASE_PATH);
     setOpenId(null);
   };
 
@@ -106,7 +106,7 @@ export default function App() {
 
   function setCatUrl(id) {
     const c = catById.get(id);
-    history.replaceState(null, "", c ? catPath(c) : "/");
+    history.replaceState(null, "", c ? catPath(c) : BASE_PATH);
     document.title = c ? `${c.name} in Kenya | ${SITE_NAME}` : DEFAULT_TITLE;
   }
   function chooseCat(id) {
@@ -248,7 +248,7 @@ export default function App() {
                 <h3>{g.title}</h3>
                 <ul>
                   {g.items.map(([label, term]) => (
-                    <li key={label}><a href={`/?q=${encodeURIComponent(term)}`} onClick={(e) => { e.preventDefault(); searchFor(term); }}>{label}</a></li>
+                    <li key={label}><a href={`${BASE_PATH}?q=${encodeURIComponent(term)}`} onClick={(e) => { e.preventDefault(); searchFor(term); }}>{label}</a></li>
                   ))}
                 </ul>
               </div>
@@ -286,7 +286,7 @@ export default function App() {
             <a className="foot-phone" {...wa}>{WHATSAPP_DISPLAY}</a>
           </div>
         </div>
-        <p className="foot-legal">© {new Date().getFullYear()} {SITE_NAME} · <a href="/prices.html">Admin</a></p>
+        <p className="foot-legal">© {new Date().getFullYear()} {SITE_NAME} · <a href={`${BASE_PATH}prices.html`}>Admin</a></p>
       </footer>
 
       <a className="fab" {...wa} aria-label="Chat on WhatsApp"><WaIcon /></a>

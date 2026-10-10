@@ -9,10 +9,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { firebaseConfig, CATALOG_ROOT, CATALOG_SITE_ID, PRICES_ROOT, SITE_NAME, WHATSAPP, WHATSAPP_DISPLAY, CURRENCY } from "../src/lib/config.js";
-import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION, MATERIALS, catSlug, catPath, productPath } from "../src/lib/seo.js";
+import { SITE_URL, BASE_PATH, SITE_TITLE, SITE_DESCRIPTION, MATERIALS, catSlug, catPath, productPath } from "../src/lib/seo.js";
 
 const DIST = path.resolve("dist");
-const ORG_ID = `${SITE_URL}/#store`;
+const ORG_ID = `${SITE_URL}${BASE_PATH}#store`;
 
 // ---------- helpers ----------
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -92,15 +92,15 @@ const inCat = (c) => products.filter((p) => p.categoryId === c.id);
 const parents = cats.filter((c) => !c.parent && inCat(c).length);
 const featured = products.filter((p) => p.featured);
 const showcase = featured.length ? featured : parents.map((c) => inCat(c)[0]).filter(Boolean);
-const OG_DEFAULT = `${SITE_URL}/og-image.png`;
+const OG_DEFAULT = `${SITE_URL}${BASE_PATH}og-image.png`;
 
 const store = {
   "@context": "https://schema.org",
   "@type": "Store",
   "@id": ORG_ID,
   name: SITE_NAME,
-  url: `${SITE_URL}/`,
-  logo: `${SITE_URL}/icon-512.png`,
+  url: `${SITE_URL}${BASE_PATH}`,
+  logo: `${SITE_URL}${BASE_PATH}icon-512.png`,
   image: OG_DEFAULT,
   description: SITE_DESCRIPTION,
   telephone: `+${WHATSAPP}`,
@@ -120,7 +120,7 @@ const itemList = (name, list) => ({
 });
 const productLinks = (list) => `<ul>${list.map((p) => `<li><a href="${productPath(p.id)}">${esc(p.name)}</a>${money(p.price) ? ` — ${money(p.price)}` : ""}</li>`).join("")}</ul>`;
 const catLinks = () => `<ul>${parents.map((c) => `<li><a href="${catPath(c)}">${esc(c.name)} in Kenya</a> (${inCat(c).length})</li>`).join("")}</ul>`;
-const supplyText = MATERIALS.map((g) => `<h2>${esc(g.title)}</h2><p>${g.items.map(([label, q]) => `<a href="/?q=${encodeURIComponent(q)}">${esc(label)}</a>`).join(", ")}</p>`).join("");
+const supplyText = MATERIALS.map((g) => `<h2>${esc(g.title)}</h2><p>${g.items.map(([label, q]) => `<a href="${BASE_PATH}?q=${encodeURIComponent(q)}">${esc(label)}</a>`).join(", ")}</p>`).join("");
 const contact = `<p>Order on WhatsApp: <a href="${wa(`Hi ${SITE_NAME}, I'm enquiring about your lighting and electrical products.`)}">${WHATSAPP_DISPLAY}</a></p>`;
 
 const urls = [];
@@ -129,19 +129,19 @@ const urls = [];
 await write("index.html", page({
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
-  url: `${SITE_URL}/`,
+  url: `${SITE_URL}${BASE_PATH}`,
   image: OG_DEFAULT,
   schema: [
     store,
-    { "@context": "https://schema.org", "@type": "WebSite", "@id": `${SITE_URL}/#website`, name: SITE_NAME, url: `${SITE_URL}/`, inLanguage: "en-KE", publisher: { "@id": ORG_ID },
-      potentialAction: { "@type": "SearchAction", target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}/?q={search_term_string}` }, "query-input": "required name=search_term_string" } },
+    { "@context": "https://schema.org", "@type": "WebSite", "@id": `${SITE_URL}${BASE_PATH}#website`, name: SITE_NAME, url: `${SITE_URL}${BASE_PATH}`, inLanguage: "en-KE", publisher: { "@id": ORG_ID },
+      potentialAction: { "@type": "SearchAction", target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}${BASE_PATH}?q={search_term_string}` }, "query-input": "required name=search_term_string" } },
     itemList(featured.length ? "Featured products" : "Popular products", showcase.slice(0, 20)),
   ],
   body: `<main class="pre"><h1>${esc(SITE_TITLE)}</h1><p>${esc(SITE_DESCRIPTION)}</p>
 <h2>${featured.length ? "Featured products" : "Popular products"}</h2>${productLinks(showcase.slice(0, 20))}
 <h2>Shop by category</h2>${catLinks()}${supplyText}${contact}</main>`,
 }));
-urls.push({ loc: `${SITE_URL}/`, priority: "1.0", changefreq: "daily" });
+urls.push({ loc: `${SITE_URL}${BASE_PATH}`, priority: "1.0", changefreq: "daily" });
 
 // ---------- categories ----------
 for (const c of parents) {
@@ -154,11 +154,11 @@ for (const c of parents) {
     image: jpg(c.cover || list[0]?.mainImage, 1200) || OG_DEFAULT,
     schema: [
       store,
-      { "@context": "https://schema.org", "@type": "CollectionPage", name: `${c.name} in Kenya`, url, description, isPartOf: { "@id": `${SITE_URL}/#website` } },
+      { "@context": "https://schema.org", "@type": "CollectionPage", name: `${c.name} in Kenya`, url, description, isPartOf: { "@id": `${SITE_URL}${BASE_PATH}#website` } },
       itemList(`${c.name} in Kenya`, list.slice(0, 50)),
-      crumbs([["Home", `${SITE_URL}/`], [c.name, url]]),
+      crumbs([["Home", `${SITE_URL}${BASE_PATH}`], [c.name, url]]),
     ],
-    body: `<main class="pre"><p><a href="/">${SITE_NAME}</a> › ${esc(c.name)}</p><h1>${esc(c.name)} in Kenya</h1><p>${esc(description)}</p>${productLinks(list)}<h2>More categories</h2>${catLinks()}${contact}</main>`,
+    body: `<main class="pre"><p><a href="${BASE_PATH}">${SITE_NAME}</a> › ${esc(c.name)}</p><h1>${esc(c.name)} in Kenya</h1><p>${esc(description)}</p>${productLinks(list)}<h2>More categories</h2>${catLinks()}${contact}</main>`,
   }));
   const last = list.map((p) => p.updatedAt || p.createdAt).filter((x) => typeof x === "number").sort().pop();
   urls.push({ loc: url, priority: "0.8", changefreq: "weekly", lastmod: isoDay(last) });
@@ -195,9 +195,9 @@ for (const p of products) {
     image: jpg(p.mainImage, 1200),
     schema: [
       store, product,
-      crumbs([["Home", `${SITE_URL}/`], ...(c ? [[c.name, SITE_URL + catPath(c)]] : []), [p.name, url]]),
+      crumbs([["Home", `${SITE_URL}${BASE_PATH}`], ...(c ? [[c.name, SITE_URL + catPath(c)]] : []), [p.name, url]]),
     ],
-    body: `<main class="pre"><p><a href="/">${SITE_NAME}</a>${c ? ` › <a href="${catPath(c)}">${esc(c.name)}</a>` : ""}</p>
+    body: `<main class="pre"><p><a href="${BASE_PATH}">${SITE_NAME}</a>${c ? ` › <a href="${catPath(c)}">${esc(c.name)}</a>` : ""}</p>
 <h1>${esc(p.name)}</h1>${p.code ? `<p>Model ${esc(p.code)}</p>` : ""}
 <img src="${esc(img(p.mainImage, 900))}" alt="${esc(`${p.name}${kind ? ` — ${kind}` : ""}`)}" width="900" height="900">
 <p>${price ? `Price: ${esc(price)}` : "Price on request."}</p>${p.description ? `<p>${esc(p.description)}</p>` : ""}
@@ -209,8 +209,8 @@ ${related.length ? `<h2>More ${esc(c.name.toLowerCase())}</h2>${productLinks(rel
 
 // ---------- 404 (keeps the app working for products added after this build) ----------
 await write("404.html", page({
-  title: `Page not found | ${SITE_NAME}`, description: SITE_DESCRIPTION, url: `${SITE_URL}/`, image: OG_DEFAULT, robots: "noindex",
-  body: `<main class="pre"><h1>Page not found</h1><p><a href="/">Go to the ${SITE_NAME} shop</a></p></main>`,
+  title: `Page not found | ${SITE_NAME}`, description: SITE_DESCRIPTION, url: `${SITE_URL}${BASE_PATH}`, image: OG_DEFAULT, robots: "noindex",
+  body: `<main class="pre"><h1>Page not found</h1><p><a href="${BASE_PATH}">Go to the ${SITE_NAME} shop</a></p></main>`,
 }));
 
 // ---------- sitemap ----------

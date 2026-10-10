@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ADMIN_PASS_SHA256, SITE_NAME } from "../lib/config.js";
 import { sha256 } from "../lib/util.js";
 import { BulbMark } from "../components/BulbMark.jsx";
+import { BASE_PATH } from "../lib/seo.js";
 
 // Password screen for the Luminance admin (prices only).
 // The password is checked against SHA-256 hashes in config.js.
@@ -48,7 +49,7 @@ export default function Gate({ children }) {
           {state === "ok" ? "Lights on…" : state === "checking" ? "Checking…" : "Sign in"}
         </button>
         <p className="gate-err" role="alert">{err}</p>
-        <a className="gate-back" href="/">← Back to the shop</a>
+        <a className="gate-back" href={BASE_PATH}>← Back to the shop</a>
       </form>
     </section>
   );

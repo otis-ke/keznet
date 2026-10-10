@@ -3,7 +3,7 @@ import { SITE_NAME, CURRENCY } from "../lib/config.js";
 import { clearPrice, setPrice } from "../lib/db.js";
 import { img, money } from "../lib/util.js";
 import { useCatalog } from "../lib/useCatalog.js";
-import { productPath } from "../lib/seo.js";
+import { BASE_PATH, productPath } from "../lib/seo.js";
 import { BulbMark } from "../components/BulbMark.jsx";
 
 // Luminance's price list. Only prices can be changed here; everything else
@@ -32,9 +32,9 @@ export default function Prices({ onLogout }) {
   return (
     <div className="pp">
       <header className="pp-bar">
-        <a className="brand" href="/"><BulbMark className="brand-bulb" />{SITE_NAME}</a>
+        <a className="brand" href={BASE_PATH}><BulbMark className="brand-bulb" />{SITE_NAME}</a>
         <span className="pp-tag">Admin · Prices</span>
-        <a className="btn btn-amber sm" href="/" target="_blank" rel="noopener">View shop ↗</a>
+        <a className="btn btn-amber sm" href={BASE_PATH} target="_blank" rel="noopener">View shop ↗</a>
         <button className="pp-out" onClick={onLogout}>Sign out</button>
       </header>
 

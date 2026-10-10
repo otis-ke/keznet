@@ -6,6 +6,8 @@ Customers order on WhatsApp — there is no checkout.
 
 | Page | What it is |
 |---|---|
+**Live site:** https://otis-ke.github.io/keznet/
+
 | `index.html` | The shop: dimmable chandelier hero, categories, search, product views, WhatsApp enquiries |
 | `prices.html` | Admin (password protected): set Luminance's price for each product. Linked as **Admin** in the footer |
 
@@ -34,8 +36,8 @@ npm run build      # production build into dist/ (+ SEO pages)
 
 ## Before going live
 
-1. Set `SITE_URL` in `src/lib/seo.js` to the live address (e.g. `https://luminance.co.ke`).
-   Until then, the build skips canonical URLs and the sitemap.
+1. Hosting is set in `src/lib/seo.js`: `SITE_URL` (origin) and `BASE_PATH` (`/keznet/` on GitHub Pages).
+   With your own domain, set `SITE_URL` to it and `BASE_PATH` to `"/"`.
 2. Add a `Sitemap:` line with that address to `public/robots.txt`.
 3. The WhatsApp number (0721 672 190) is set in `src/lib/config.js`.
 4. `.github/workflows/deploy.yml` deploys to GitHub Pages on every push to `main` and nightly.

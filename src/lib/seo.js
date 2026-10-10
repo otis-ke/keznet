@@ -1,8 +1,10 @@
 // Shared by the shop (browser) and scripts/seo.mjs (build time). No browser or React imports.
 
-// Set this to the live address (e.g. "https://luminance.co.ke") before deploying.
-// While empty, pages are still generated but without canonical URLs or a sitemap.
-export const SITE_URL = "";
+// Where the site is hosted: GitHub Pages project site https://otis-ke.github.io/keznet/
+// SITE_URL is the origin; BASE_PATH is the folder the site lives in (must start and end with "/").
+// With your own domain later, set SITE_URL to it and BASE_PATH to "/".
+export const SITE_URL = "https://otis-ke.github.io";
+export const BASE_PATH = "/keznet/";
 export const SITE_TITLE = "Luminance — Lighting & Electrical Supplies in Kenya";
 export const SITE_DESCRIPTION =
   "Shop chandeliers, pendant lights, wall lamps, LED panels, downlighters, bulbs, cables, switches, sockets and breakers in Kenya. See photos and prices, then order directly on WhatsApp.";
@@ -11,10 +13,11 @@ export const slugify = (s) =>
   String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 export const catSlug = (c) => c.slug || slugify(c.name);
-export const productPath = (id) => `/p/${encodeURIComponent(id)}/`;
-export const catPath = (c) => `/c/${catSlug(c)}/`;
+export const productPath = (id) => `${BASE_PATH}p/${encodeURIComponent(id)}/`;
+export const catPath = (c) => `${BASE_PATH}c/${catSlug(c)}/`;
 
-export function parsePath(pathname) {
+export function parsePath(fullPath) {
+  const pathname = fullPath.startsWith(BASE_PATH) ? "/" + fullPath.slice(BASE_PATH.length) : fullPath;
   const p = pathname.match(/^\/p\/([^/]+)\/?$/);
   if (p) return { productId: decodeURIComponent(p[1]) };
   const c = pathname.match(/^\/c\/([^/]+)\/?$/);
