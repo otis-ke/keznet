@@ -397,9 +397,4 @@ svg { flex-shrink: 0; }
   .halo { scale: .62; height: 270px; margin: 0 0 -20px; translate: 0 -24px; }
 }
 @media (max-width: 860px) {
-  /* keep the Prices link reachable on phones */
-  .nav-links { display: flex; margin-left: auto; }
-  .nav-links a:not(.nav-prices) { display: none; }
-  .nav .btn { margin-left: 0; }
-}
 @media (prefers-reduced-motion: reduce) { .rings, .ring::after { animation: none !important; } }

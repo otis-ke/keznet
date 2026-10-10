@@ -8,7 +8,7 @@ import { BulbMark } from "../components/BulbMark.jsx";
 
 // Luminance's price list. Only prices can be changed here; everything else
 // (names, photos, descriptions, categories) comes read-only from the catalogue.
-export default function Prices() {
+export default function Prices({ onLogout }) {
   const { status, cats, products, pricesLoaded } = useCatalog();
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("");
@@ -33,8 +33,9 @@ export default function Prices() {
     <div className="pp">
       <header className="pp-bar">
         <a className="brand" href="/"><BulbMark className="brand-bulb" />{SITE_NAME}</a>
-        <span className="pp-tag">Prices</span>
+        <span className="pp-tag">Admin · Prices</span>
         <a className="btn btn-amber sm" href="/" target="_blank" rel="noopener">View shop ↗</a>
+        <button className="pp-out" onClick={onLogout}>Sign out</button>
       </header>
 
       <main className="pp-main">

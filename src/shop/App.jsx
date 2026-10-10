@@ -184,7 +184,6 @@ export default function App() {
           <a href="#shop">Shop</a>
           <a href="#supplies">What we supply</a>
           <a href="#how">How it works</a>
-          <a href="/prices.html" className="nav-prices">Prices</a>
         </nav>
         <a className="btn btn-wa sm" {...wa}><WaIcon /><span>Chat</span></a>
       </header>
@@ -287,7 +286,7 @@ export default function App() {
             <a className="foot-phone" {...wa}>{WHATSAPP_DISPLAY}</a>
           </div>
         </div>
-        <p className="foot-legal">© {new Date().getFullYear()} {SITE_NAME} · <a href="/prices.html">Manage prices</a></p>
+        <p className="foot-legal">© {new Date().getFullYear()} {SITE_NAME} · <a href="/prices.html">Admin</a></p>
       </footer>
 
       <a className="fab" {...wa} aria-label="Chat on WhatsApp"><WaIcon /></a>

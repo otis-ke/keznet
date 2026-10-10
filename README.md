@@ -7,7 +7,7 @@ Customers order on WhatsApp — there is no checkout.
 | Page | What it is |
 |---|---|
 | `index.html` | The shop: dimmable chandelier hero, categories, search, product views, WhatsApp enquiries |
-| `prices.html` | Price list: set Luminance's price for each product (linked as **Prices** in the nav) |
+| `prices.html` | Admin (password protected): set Luminance's price for each product. Linked as **Admin** in the footer |
 
 ## How the data works
 
@@ -19,9 +19,10 @@ Customers order on WhatsApp — there is no checkout.
   Changing a Luminance price never affects the other shop.
 - New products added to the catalogue appear here automatically.
 
-> The Prices page has no password, so anyone who opens `/prices.html` can change prices.
-> The database itself is also open to writes. For real protection, add database rules
-> (and sign-in) in the Firebase console.
+> The admin page is password protected and can only change Luminance's prices. The password is
+> checked against SHA-256 hashes in `src/lib/config.js` (`ADMIN_PASS_SHA256`); the password itself is
+> never stored. This is a browser-side check: the database itself is still open to writes, so for
+> real protection add database rules (and sign-in) in the Firebase console.
 
 ## Run it locally
 
@@ -36,7 +37,7 @@ npm run build      # production build into dist/ (+ SEO pages)
 1. Set `SITE_URL` in `src/lib/seo.js` to the live address (e.g. `https://luminance.co.ke`).
    Until then, the build skips canonical URLs and the sitemap.
 2. Add a `Sitemap:` line with that address to `public/robots.txt`.
-3. Check the WhatsApp number in `src/lib/config.js` (it's currently the same as the other shop).
+3. The WhatsApp number (0721 672 190) is set in `src/lib/config.js`.
 4. `.github/workflows/deploy.yml` deploys to GitHub Pages on every push to `main` and nightly.
 
 ## Project layout

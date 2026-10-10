@@ -25,7 +25,14 @@ export const CATALOG_ROOT = "otishub";    // read-only: /otishub/products, /otis
 export const CATALOG_SITE_ID = "otis-hub"; // records in the shared catalogue carry this tag
 export const PRICES_ROOT = "luminance";    // Luminance's own data: /luminance/prices
 
-// International format, no "+" or leading 0  (0769212618 -> 254769212618)
-export const WHATSAPP = "254769212618";
-export const WHATSAPP_DISPLAY = "0769 212 618";
+// SHA-256 hashes of the admin password for the Prices page (only the hashes are stored, never the password).
+// To change it: node -e "console.log(require('crypto').createHash('sha256').update('NEW-PASSWORD').digest('hex'))"
+export const ADMIN_PASS_SHA256 = [
+  "d83bc399f41ef751aaa752b1de64e189a627b61ed278c5ba29fb13218794f443",
+  "c82b4fc1d1139ec4bfb8386c6a04919311399a6f3af474b2409df34124aea965",
+];
+
+// International format, no "+" or leading 0  (0721672190 -> 254721672190)
+export const WHATSAPP = "254721672190";
+export const WHATSAPP_DISPLAY = "0721 672 190";
 export const CURRENCY = "KES";

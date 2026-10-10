@@ -36,6 +36,11 @@ export async function downloadImage(url, name) {
   if (a.download) setTimeout(() => URL.revokeObjectURL(a.href), 4000);
 }
 
+export async function sha256(text) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 export const millis = (t) => (typeof t === "number" ? t : 0);
 
 // Scroll-reveal: any element with class "reveal" gets data-in="1" once it
