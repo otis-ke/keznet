@@ -342,10 +342,11 @@ svg { flex-shrink: 0; }
 .canopy { position: absolute; left: 50%; top: -120px; width: 70px; height: 12px; margin-left: -35px; border-radius: 0 0 35px 35px / 0 0 12px 12px; background: linear-gradient(#3a3732, #1c1b19); }
 .rings { position: absolute; left: 50%; top: 120px; width: 0; height: 0; animation: sway 9s ease-in-out infinite; transform-origin: 50% -240px; }
 @keyframes sway { 0%,100% { transform: rotate(1.2deg); } 50% { transform: rotate(-1.2deg); } }
-.ring { position: absolute; left: 0; top: 0; border-radius: 50%; translate: -50% -50%;
+/* centring lives inside transform: the minifier drops a separate `translate` here */
+.ring { position: absolute; left: 0; top: 0; border-radius: 50%;
   border: 5px solid rgba(var(--lc), calc(.25 + var(--lv) * .75));
   box-shadow: 0 0 calc(6px + var(--lv) * 22px) rgba(var(--lc), calc(var(--lv) * .95)), inset 0 0 calc(4px + var(--lv) * 16px) rgba(var(--lc), calc(var(--lv) * .8)), 0 0 calc(var(--lv) * 80px) rgba(var(--lc), calc(var(--lv) * .35));
-  transform: perspective(700px) rotateX(72deg); transition: border-color .4s, box-shadow .4s; }
+  transform: translate(-50%, -50%) perspective(700px) rotateX(72deg); transition: border-color .4s, box-shadow .4s; }
 .ring::after { content: ""; position: absolute; inset: -2px; border-radius: 50%; border-top: 3px solid rgba(255,255,255, calc(var(--lv) * .9)); filter: blur(1px); animation: spin 6s linear infinite; }
 .r1 { width: 360px; height: 360px; top: 0; }
 .r2 { width: 260px; height: 260px; top: 70px; }
