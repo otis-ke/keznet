@@ -9,7 +9,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { firebaseConfig, CATALOG_ROOT, CATALOG_SITE_ID, PRICES_ROOT, SITE_NAME, WHATSAPP, WHATSAPP_DISPLAY, CURRENCY } from "../src/lib/config.js";
-import { SITE_URL, BASE_PATH, SITE_TITLE, SITE_DESCRIPTION, MATERIALS, catSlug, catPath, productPath } from "../src/lib/seo.js";
+import { SITE_URL, BASE_PATH, SITE_TITLE, SITE_DESCRIPTION, SITE_ALT_NAMES, MATERIALS, catSlug, catPath, productPath } from "../src/lib/seo.js";
 
 const DIST = path.resolve("dist");
 const ORG_ID = `${SITE_URL}${BASE_PATH}#store`;
@@ -47,7 +47,7 @@ async function loadCatalogue() {
 const template = await fs.readFile(path.join(DIST, "index.html"), "utf8");
 if (!template.includes("<!--seo:head-->") || !template.includes("<!--seo:body-->")) throw new Error("seo: markers missing from dist/index.html");
 
-function page({ title, description, url, image, type = "website", schema = [], body = "", robots = "index,follow,max-image-preview:large" }) {
+function page({ title, description, url, image, imageAlt = title, imageSize, type = "website", meta = [], schema = [], body = "", robots = "index,follow,max-image-preview:large,max-snippet:-1" }) {
   const head = [
     `<title>${esc(title)}</title>`,
     `<meta name="description" content="${esc(description)}">`,
@@ -59,10 +59,14 @@ function page({ title, description, url, image, type = "website", schema = [], b
     `<meta property="og:title" content="${esc(title)}">`,
     `<meta property="og:description" content="${esc(description)}">`,
     `<meta property="og:image" content="${esc(image)}">`,
+    `<meta property="og:image:alt" content="${esc(imageAlt)}">`,
+    ...(imageSize ? [`<meta property="og:image:width" content="${imageSize[0]}">`, `<meta property="og:image:height" content="${imageSize[1]}">`, `<meta property="og:image:type" content="image/png">`] : []),
+    ...meta,
     `<meta name="twitter:card" content="summary_large_image">`,
     `<meta name="twitter:title" content="${esc(title)}">`,
     `<meta name="twitter:description" content="${esc(description)}">`,
     `<meta name="twitter:image" content="${esc(image)}">`,
+    `<meta name="twitter:image:alt" content="${esc(imageAlt)}">`,
     ...schema.map(ld),
   ].join("\n");
   return template
@@ -93,12 +97,14 @@ const parents = cats.filter((c) => !c.parent && inCat(c).length);
 const featured = products.filter((p) => p.featured);
 const showcase = featured.length ? featured : parents.map((c) => inCat(c)[0]).filter(Boolean);
 const OG_DEFAULT = `${SITE_URL}${BASE_PATH}og-image.png`;
+const OG_DEFAULT_META = { image: OG_DEFAULT, imageSize: [1200, 630], imageAlt: `${SITE_NAME}: chandeliers, pendant lights and electrical supplies in Kenya` };
 
 const store = {
   "@context": "https://schema.org",
   "@type": "Store",
   "@id": ORG_ID,
   name: SITE_NAME,
+  alternateName: SITE_ALT_NAMES,
   url: `${SITE_URL}${BASE_PATH}`,
   logo: `${SITE_URL}${BASE_PATH}icon-512.png`,
   image: OG_DEFAULT,
@@ -130,10 +136,10 @@ await write("index.html", page({
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   url: `${SITE_URL}${BASE_PATH}`,
-  image: OG_DEFAULT,
+  ...OG_DEFAULT_META,
   schema: [
     store,
-    { "@context": "https://schema.org", "@type": "WebSite", "@id": `${SITE_URL}${BASE_PATH}#website`, name: SITE_NAME, url: `${SITE_URL}${BASE_PATH}`, inLanguage: "en-KE", publisher: { "@id": ORG_ID },
+    { "@context": "https://schema.org", "@type": "WebSite", "@id": `${SITE_URL}${BASE_PATH}#website`, name: SITE_NAME, alternateName: SITE_ALT_NAMES, url: `${SITE_URL}${BASE_PATH}`, inLanguage: "en-KE", publisher: { "@id": ORG_ID },
       potentialAction: { "@type": "SearchAction", target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}${BASE_PATH}?q={search_term_string}` }, "query-input": "required name=search_term_string" } },
     itemList(featured.length ? "Featured products" : "Popular products", showcase.slice(0, 20)),
   ],
@@ -152,6 +158,7 @@ for (const c of parents) {
   await write(path.join("c", catSlug(c), "index.html"), page({
     title, description, url,
     image: jpg(c.cover || list[0]?.mainImage, 1200) || OG_DEFAULT,
+    imageAlt: `${c.name} at ${SITE_NAME}, Kenya`,
     schema: [
       store,
       { "@context": "https://schema.org", "@type": "CollectionPage", name: `${c.name} in Kenya`, url, description, isPartOf: { "@id": `${SITE_URL}${BASE_PATH}#website` } },
@@ -193,6 +200,13 @@ for (const p of products) {
   await write(path.join("p", p.id, "index.html"), page({
     title, description, url, type: "product",
     image: jpg(p.mainImage, 1200),
+    imageAlt: `${p.name}${kind ? ` — ${kind}` : ""}`,
+    meta: price ? [
+      `<meta property="product:price:amount" content="${Number(p.price)}">`,
+      `<meta property="product:price:currency" content="${CURRENCY}">`,
+      `<meta property="product:availability" content="${p.stock === "out" ? "out of stock" : "in stock"}">`,
+      `<meta property="product:condition" content="new">`,
+    ] : [],
     schema: [
       store, product,
       crumbs([["Home", `${SITE_URL}${BASE_PATH}`], ...(c ? [[c.name, SITE_URL + catPath(c)]] : []), [p.name, url]]),
@@ -209,7 +223,7 @@ ${related.length ? `<h2>More ${esc(c.name.toLowerCase())}</h2>${productLinks(rel
 
 // ---------- 404 (keeps the app working for products added after this build) ----------
 await write("404.html", page({
-  title: `Page not found | ${SITE_NAME}`, description: SITE_DESCRIPTION, url: `${SITE_URL}${BASE_PATH}`, image: OG_DEFAULT, robots: "noindex",
+  title: `Page not found | ${SITE_NAME}`, description: SITE_DESCRIPTION, url: `${SITE_URL}${BASE_PATH}`, ...OG_DEFAULT_META, robots: "noindex",
   body: `<main class="pre"><h1>Page not found</h1><p><a href="${BASE_PATH}">Go to the ${SITE_NAME} shop</a></p></main>`,
 }));
 
@@ -224,7 +238,15 @@ ${urls.map((u) => `  <url>
   </url>`).join("\n")}
 </urlset>
 `;
-if (SITE_URL) await fs.writeFile(path.join(DIST, "sitemap.xml"), xml);
+if (SITE_URL) {
+  await fs.writeFile(path.join(DIST, "sitemap.xml"), xml);
+  await fs.writeFile(path.join(DIST, "robots.txt"), `User-agent: *
+Allow: /
+Disallow: ${BASE_PATH}prices.html
+
+Sitemap: ${SITE_URL}${BASE_PATH}sitemap.xml
+`);
+}
 else console.warn("seo: SITE_URL is empty in src/lib/seo.js, so no sitemap or canonical URLs were written");
 
 console.log(`seo: ${source} → home + ${parents.length} category pages + ${products.length} product pages, sitemap with ${urls.length} URLs`);

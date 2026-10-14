@@ -1,3 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /prices.html
+Disallow: /keznet/prices.html
+
+Sitemap: https://otis-ke.github.io/keznet/sitemap.xml

@@ -5,9 +5,11 @@
 // With your own domain later, set SITE_URL to it and BASE_PATH to "/".
 export const SITE_URL = "https://otis-ke.github.io";
 export const BASE_PATH = "/keznet/";
-export const SITE_TITLE = "RAYORA LIGHTING — Lighting & Electrical Supplies in Kenya";
+export const SITE_TITLE = "RAYORA LIGHTING | Chandeliers, Lights & Electrical Supplies in Kenya";
 export const SITE_DESCRIPTION =
-  "Shop chandeliers, pendant lights, wall lamps, LED panels, downlighters, bulbs, cables, switches, sockets and breakers in Kenya. See photos and prices, then order directly on WhatsApp.";
+  "RAYORA LIGHTING sells chandeliers, pendant lights, wall lamps, LED panels, bulbs, cables, switches, sockets and breakers in Kenya. See photos and prices, order on WhatsApp.";
+// Other ways people write the name, for search engines
+export const SITE_ALT_NAMES = ["Rayora Lighting", "Rayora", "Rayora Lighting Kenya"];
 
 export const slugify = (s) =>
   String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
