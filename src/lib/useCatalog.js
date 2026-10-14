@@ -23,12 +23,12 @@ async function fetchCatalogue() {
   return { cats, products };
 }
 
-// Catalogue (read only) + Luminance's own prices, merged and kept live.
+// Catalogue (read only) + RAYORA LIGHTING's own prices, merged and kept live.
 // Each product gets:
 //   basePrice — the catalogue's price (reference only)
-//   price     — what Luminance shows: its own price if set, otherwise the catalogue's
-//   oldPrice  — the catalogue's crossed-out price, only when Luminance hasn't set its own
-//   ownPrice  — true when the price comes from Luminance
+//   price     — what RAYORA LIGHTING shows: its own price if set, otherwise the catalogue's
+//   oldPrice  — the catalogue's crossed-out price, only when RAYORA LIGHTING hasn't set its own
+//   ownPrice  — true when the price comes from RAYORA LIGHTING
 export function useCatalog() {
   const [raw, setRaw] = useState({ status: "loading", cats: [], products: [] });
   const [prices, setPrices] = useState(null);

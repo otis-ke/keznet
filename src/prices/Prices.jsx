@@ -6,7 +6,7 @@ import { useCatalog } from "../lib/useCatalog.js";
 import { BASE_PATH, productPath } from "../lib/seo.js";
 import { BulbMark } from "../components/BulbMark.jsx";
 
-// Luminance's price list. Only prices can be changed here; everything else
+// RAYORA LIGHTING's price list. Only prices can be changed here; everything else
 // (names, photos, descriptions, categories) comes read-only from the catalogue.
 export default function Prices({ onLogout }) {
   const { status, cats, products, pricesLoaded } = useCatalog();

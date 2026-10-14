@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-// Luminance hero: a hanging three-ring chandelier with a working dimmer.
+// RAYORA LIGHTING hero: a hanging three-ring chandelier with a working dimmer.
 // Brightness drives the glow; warmth (colour temperature in kelvin) drives the colour.
 
 const MIN_K = 2700, MAX_K = 6500;

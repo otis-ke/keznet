@@ -1,6 +1,6 @@
 // Data layer.
 //   Catalogue (/otishub):          read only — there are deliberately no write functions for it.
-//   Prices    (/luminance/prices): Luminance's own prices, the only thing this site writes.
+//   Prices    (/luminance/prices): RAYORA LIGHTING's own prices, the only thing this site writes.
 import { initializeApp, getApps } from "firebase/app";
 import { getDatabase, ref, get, set, remove, onValue, serverTimestamp } from "firebase/database";
 import { firebaseConfig, CATALOG_ROOT, CATALOG_SITE_ID, PRICES_ROOT } from "./config.js";
@@ -17,7 +17,7 @@ export async function listCatalog(col) {
     .filter((d) => d.site === CATALOG_SITE_ID);
 }
 
-// ---------- Luminance prices ----------
+// ---------- RAYORA LIGHTING prices ----------
 // { [productKey]: { price: number, updatedAt } }
 export const priceKey = (productId) => productId.replace(/[.#$[\]/]/g, "_");
 

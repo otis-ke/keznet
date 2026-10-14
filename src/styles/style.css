@@ -316,7 +316,7 @@ svg { flex-shrink: 0; }
 }
 
 /* =========================================================
-   Luminance hero — ring chandelier with a working dimmer
+   RAYORA LIGHTING hero — ring chandelier with a working dimmer
    --lc: light colour (r, g, b)   --lv: light level 0..1
    ========================================================= */
 .lhero { --lc: 255, 196, 130; --lv: .85; justify-content: flex-end; background: radial-gradient(110% 80% at 72% 0%, #201d19 0%, #0e0e0d 62%); }

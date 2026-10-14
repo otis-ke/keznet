@@ -1,11 +1,11 @@
-// Luminance configuration.
+// RAYORA LIGHTING configuration.
 //
-// Luminance shows the same products and photos as the main catalogue, which it
+// RAYORA LIGHTING shows the same products and photos as the main catalogue, which it
 // READS ONLY from /otishub in the shared Firebase Realtime Database. It never
 // writes there: names, descriptions and photos can't be changed from this site.
 //
 // Its own prices are stored separately under /luminance/prices/<productId>.
-// Products without a Luminance price show the catalogue's price (or "Ask for price").
+// Products without a RAYORA LIGHTING price show the catalogue's price (or "Ask for price").
 //
 // The Firebase web config below is not a secret: browser apps always ship it.
 
@@ -19,11 +19,11 @@ export const firebaseConfig = {
   appId: "1:624369028287:web:d650c36385899f26490a0a"
 };
 
-export const SITE_NAME = "Luminance";
+export const SITE_NAME = "RAYORA LIGHTING";
 
 export const CATALOG_ROOT = "otishub";    // read-only: /otishub/products, /otishub/categories
 export const CATALOG_SITE_ID = "otis-hub"; // records in the shared catalogue carry this tag
-export const PRICES_ROOT = "luminance";    // Luminance's own data: /luminance/prices
+export const PRICES_ROOT = "luminance";    // RAYORA LIGHTING's own data: /luminance/prices
 
 // SHA-256 hashes of the admin password for the Prices page (only the hashes are stored, never the password).
 // To change it: node -e "console.log(require('crypto').createHash('sha256').update('NEW-PASSWORD').digest('hex'))"

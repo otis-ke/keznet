@@ -1,4 +1,4 @@
-// The Luminance bulb logo (same drawing as public/favicon.svg, without the tile)
+// The RAYORA LIGHTING bulb logo (same drawing as public/favicon.svg, without the tile)
 export function BulbMark({ className = "" }) {
   return (
     <svg className={className} viewBox="0 0 64 64" aria-hidden="true">

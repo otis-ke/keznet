@@ -4,7 +4,7 @@ import { sha256 } from "../lib/util.js";
 import { BulbMark } from "../components/BulbMark.jsx";
 import { BASE_PATH } from "../lib/seo.js";
 
-// Password screen for the Luminance admin (prices only).
+// Password screen for the RAYORA LIGHTING admin (prices only).
 // The password is checked against SHA-256 hashes in config.js.
 const KEY = "luminance-admin";
 const ok = (h) => ADMIN_PASS_SHA256.includes(h);

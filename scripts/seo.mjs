@@ -80,7 +80,7 @@ async function write(rel, html) {
 const { cats: allCats, products: catalogProducts, source } = await loadCatalogue();
 let ownPrices = {};
 try { ownPrices = (await (await fetch(`${firebaseConfig.databaseURL}/${PRICES_ROOT}/prices.json`)).json()) || {}; }
-catch (e) { console.warn("seo: couldn't load Luminance prices:", e.message); }
+catch (e) { console.warn("seo: couldn't load RAYORA LIGHTING prices:", e.message); }
 const allProducts = catalogProducts.map((p) => {
   const own = ownPrices[p.id.replace(/[.#$[\]/]/g, "_")]?.price;
   return typeof own === "number" ? { ...p, price: own, oldPrice: null } : p;

@@ -40,7 +40,7 @@ export default function ProductDialog({ p, catById, onClose }) {
   };
 
   const download = async () => {
-    const name = (slugify(p.name) || "luminance-product") + (cur ? `-view-${cur + 1}` : "");
+    const name = (slugify(p.name) || "rayora-lighting-product") + (cur ? `-view-${cur + 1}` : "");
     await downloadImage(views[cur].url, name);
     setSaved(true);
     setTimeout(() => setSaved(false), 1800);

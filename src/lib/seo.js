@@ -5,7 +5,7 @@
 // With your own domain later, set SITE_URL to it and BASE_PATH to "/".
 export const SITE_URL = "https://otis-ke.github.io";
 export const BASE_PATH = "/keznet/";
-export const SITE_TITLE = "Luminance — Lighting & Electrical Supplies in Kenya";
+export const SITE_TITLE = "RAYORA LIGHTING — Lighting & Electrical Supplies in Kenya";
 export const SITE_DESCRIPTION =
   "Shop chandeliers, pendant lights, wall lamps, LED panels, downlighters, bulbs, cables, switches, sockets and breakers in Kenya. See photos and prices, then order directly on WhatsApp.";
 
