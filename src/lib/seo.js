@@ -1,10 +1,9 @@
 // Shared by the shop (browser) and scripts/seo.mjs (build time). No browser or React imports.
 
-// Where the site is hosted: GitHub Pages project site https://otis-ke.github.io/keznet/
+// Where the site is hosted: https://rayoralighting.online (GitHub Pages, custom domain)
 // SITE_URL is the origin; BASE_PATH is the folder the site lives in (must start and end with "/").
-// With your own domain later, set SITE_URL to it and BASE_PATH to "/".
-export const SITE_URL = "https://otis-ke.github.io";
-export const BASE_PATH = "/keznet/";
+export const SITE_URL = "https://rayoralighting.online";
+export const BASE_PATH = "/";
 export const SITE_TITLE = "RAYORA LIGHTING | Chandeliers, Lights & Electrical Supplies in Kenya";
 export const SITE_DESCRIPTION =
   "RAYORA LIGHTING sells chandeliers, pendant lights, wall lamps, LED panels, bulbs, cables, switches, sockets and breakers in Kenya. See photos and prices, order on WhatsApp.";
